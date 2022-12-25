@@ -16,6 +16,9 @@
 		82CE37A32955A1F100B189FF /* LocationModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE37A22955A1F100B189FF /* LocationModuleTests.swift */; };
 		82CE37AD2955A1F100B189FF /* LocationModuleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE37AC2955A1F100B189FF /* LocationModuleUITests.swift */; };
 		82CE37AF2955A1F100B189FF /* LocationModuleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE37AE2955A1F100B189FF /* LocationModuleUITestsLaunchTests.swift */; };
+		82CE37BC2955A20D00B189FF /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE37BB2955A20D00B189FF /* ViewModel.swift */; };
+		82CE37BE2955A21E00B189FF /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE37BD2955A21E00B189FF /* Manager.swift */; };
+		82CE37C22955AB6000B189FF /* MyPoint-Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE37C12955AB6000B189FF /* MyPoint-Entity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		82CE37A82955A1F100B189FF /* LocationModuleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationModuleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82CE37AC2955A1F100B189FF /* LocationModuleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModuleUITests.swift; sourceTree = "<group>"; };
 		82CE37AE2955A1F100B189FF /* LocationModuleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModuleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		82CE37BB2955A20D00B189FF /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		82CE37BD2955A21E00B189FF /* Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		82CE37C12955AB6000B189FF /* MyPoint-Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPoint-Entity.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +108,9 @@
 				82CE378B2955A1EF00B189FF /* AppDelegate.swift */,
 				82CE378D2955A1EF00B189FF /* SceneDelegate.swift */,
 				82CE378F2955A1EF00B189FF /* ViewController.swift */,
+				82CE37BB2955A20D00B189FF /* ViewModel.swift */,
+				82CE37BD2955A21E00B189FF /* Manager.swift */,
+				82CE37C12955AB6000B189FF /* MyPoint-Entity.swift */,
 				82CE37912955A1EF00B189FF /* Main.storyboard */,
 				82CE37942955A1F100B189FF /* Assets.xcassets */,
 				82CE37962955A1F100B189FF /* LaunchScreen.storyboard */,
@@ -260,7 +269,10 @@
 			files = (
 				82CE37902955A1EF00B189FF /* ViewController.swift in Sources */,
 				82CE378C2955A1EF00B189FF /* AppDelegate.swift in Sources */,
+				82CE37BC2955A20D00B189FF /* ViewModel.swift in Sources */,
+				82CE37C22955AB6000B189FF /* MyPoint-Entity.swift in Sources */,
 				82CE378E2955A1EF00B189FF /* SceneDelegate.swift in Sources */,
+				82CE37BE2955A21E00B189FF /* Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
