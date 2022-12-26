@@ -14,6 +14,7 @@ final class ViewModel: ObservableObject {
     @Published var hasError: String = ""
     
     let locationManager = MyLocationManager.init()
+    var subscriptions: Set<AnyCancellable> = []
     
     
     // MARK: User interface Publishers
@@ -60,32 +61,43 @@ final class ViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    // MARK: Functions
-    func startLocationManager() {
-        locationManager.delegate = self
+    // MARK: - Functions
+    public func startLocationManager() {
         locationManager.requestAlwaysLocationAuthorization()
         locationManager.startLocationUpdates()
-    }
-}
-
-// MARK: - Location delegate
-extension ViewModel: LocationDelegate {
-    func didChangeLocation(_ location: MyPoint) {
-        myPoint = location
+        // Setup bindings
+        setupLocationBindings()
     }
     
-    func didFail(_ error: Error) {
-        hasError = error.localizedDescription
-    }
-    
-    func didChangeAuthorisationStatus(_ status: MyLocationAuthorisationStatus) {
-        switch status {
-        case .inUse:
-            hasError = NSLocalizedString("change-to-always", comment: "")
-        case .notAllowed:
-            hasError = NSLocalizedString("app-not-allowed", comment: "")
-        case .always:
-            hasError = ""
-        }
+    // MARK: Private
+    private func setupLocationBindings() {
+        locationManager.$myLocation
+            .compactMap{$0}
+            .sink { [weak self] location in
+                self?.myPoint = location
+            }
+            .store(in: &subscriptions)
+        
+        locationManager.$myError
+            .compactMap{$0}
+            .sink { [weak self] error in
+                self?.hasError = error.localizedDescription
+            }
+            .store(in: &subscriptions)
+        
+        locationManager.$myAuthorisation
+            .compactMap{$0}
+            .sink { [weak self] status in
+                switch status {
+                case .inUse:
+                    self?.hasError = NSLocalizedString("change-to-always", comment: "")
+                case .notAllowed:
+                    self?.hasError = NSLocalizedString("app-not-allowed", comment: "")
+                case .always:
+                    self?.hasError = ""
+                case .unknown: break
+                }
+            }
+            .store(in: &subscriptions)
     }
 }

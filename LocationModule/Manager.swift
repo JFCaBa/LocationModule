@@ -7,24 +7,23 @@
 
 import UIKit
 import CoreLocation
+import Combine
 
 public enum MyLocationAuthorisationStatus {
     case notAllowed
     case always
     case inUse
-}
-
-public protocol LocationDelegate: AnyObject {
-    func didChangeLocation(_ location: MyPoint)
-    func didFail(_ error: Error)
-    func didChangeAuthorisationStatus(_ status: MyLocationAuthorisationStatus)
+    case unknown
 }
 
 class MyLocationManager: NSObject {
     
+    @Published var myLocation = MyPoint()
+    @Published var myAuthorisation: MyLocationAuthorisationStatus = .unknown
+    @Published var myError: Error!
+    
     private var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
     private var locationManager: CLLocationManager = CLLocationManager()
-    public weak var delegate: LocationDelegate?
     
     //MARK: - Initializers
     override init() {
@@ -74,28 +73,6 @@ class MyLocationManager: NSObject {
         locationManager.startUpdatingLocation();
     }
     
-//    public func isLocationServicesEnabled() -> Bool{
-//        if CLLocationManager.locationServicesEnabled() {
-//            let manager = CLLocationManager()
-//            switch manager.authorizationStatus {
-//            case .notDetermined, .restricted, .denied:
-//                print("No access")
-//                return false
-//            case .authorizedWhenInUse:
-//                return false
-//            case .authorizedAlways:
-//                print("Access")
-//                return true
-//            @unknown default:
-//                print("Error")
-//                return false
-//            }
-//        } else {
-//            print("Location services are not enabled")
-//        }
-//        return false
-//    }
-    
     //MARK: - Private functions
     fileprivate func endBackgroundTask() {
         print("\n\n\nBackground task ended.\n\n\n")
@@ -142,33 +119,29 @@ extension MyLocationManager: CLLocationManagerDelegate {
         let latestLocation: CLLocation = locations[locations.count - 1]
         if isValidLocation(latestLocation) {
             let loc = MyPoint.init(location: latestLocation)
-            DispatchQueue.main.async {
-                self.delegate?.didChangeLocation(loc)
-            }
+            myLocation = loc
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
-        DispatchQueue.main.async {
-            self.delegate?.didFail(error)
-        }
+        myError = error
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .notDetermined, .restricted, .denied:
             print("No access")
-            delegate?.didChangeAuthorisationStatus(.notAllowed)
+            myAuthorisation = .notAllowed
         case .authorizedWhenInUse:
             print("In use")
-            delegate?.didChangeAuthorisationStatus(.inUse)
+            myAuthorisation = .inUse
         case .authorizedAlways:
             print("Always")
-            delegate?.didChangeAuthorisationStatus(.always)
+            myAuthorisation = .always
         @unknown default:
             print("Error")
-            delegate?.didChangeAuthorisationStatus(.notAllowed)
+            myAuthorisation = .notAllowed
         }
     }
 }
